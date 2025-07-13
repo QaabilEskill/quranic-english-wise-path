@@ -42,7 +42,7 @@ const LeaderboardComponent = () => {
       let currentUserRank = null;
       if (user && userProfile) {
         const { data: rankData, error: rankError } = await supabase
-          .rpc('get_user_rank', { user_id_param: user.id });
+          .rpc('get_user_rank', { user_id_param: user.id as any });
 
         if (!rankError && rankData !== null) {
           currentUserRank = rankData;

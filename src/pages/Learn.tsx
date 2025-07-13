@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import AIChatInterface from '@/components/AIChatInterface';
+import LeaderboardComponent from '@/components/LeaderboardComponent';
 import { 
   Building, 
   MessageCircle, 
@@ -94,30 +96,7 @@ const Learn = () => {
 
           {/* AI Chat Tab */}
           <TabsContent value="chat" className="space-y-6">
-            <Card className="islamic-card">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MessageCircle className="w-6 h-6" />
-                  AI Islamic English Tutor
-                </CardTitle>
-                <CardDescription>
-                  Practice English with our AI tutor trained in Islamic values and context
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="bg-muted/50 rounded-lg p-6 text-center">
-                  <MessageCircle className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium mb-2">AI Chat Feature Coming Soon</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Our AI tutor will help you practice English in Islamic contexts,
-                    correct your grammar, and explain Arabic/Islamic phrases.
-                  </p>
-                  <Button disabled className="islamic-button">
-                    Start Conversation
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <AIChatInterface />
           </TabsContent>
 
           {/* Lessons Tab */}
@@ -241,49 +220,7 @@ const Learn = () => {
 
           {/* Leaderboard Tab */}
           <TabsContent value="leaderboard" className="space-y-6">
-            <Card className="islamic-card">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="w-6 h-6" />
-                  Community Leaderboard
-                </CardTitle>
-                <CardDescription>
-                  See how you rank among fellow learners in the Ummah
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {[
-                    { name: "Ahmad Abdullah", points: 2450, level: 5 },
-                    { name: "Fatima Khan", points: 2380, level: 5 },
-                    { name: "Yusuf Ali", points: 2100, level: 4 },
-                    { name: "Aisha Rahman", points: 1950, level: 4 },
-                    { name: "You", points: userProfile?.total_points || 0, level: userProfile?.current_level || 1 }
-                  ].map((player, index) => (
-                    <div 
-                      key={index} 
-                      className={`flex items-center justify-between p-3 rounded-lg ${
-                        player.name === "You" ? "bg-primary/10 border border-primary/20" : "bg-muted/50"
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                          <span className="text-sm font-bold">#{index + 1}</span>
-                        </div>
-                        <div>
-                          <p className="font-medium">{player.name}</p>
-                          <p className="text-sm text-muted-foreground">Level {player.level}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-primary">{player.points}</p>
-                        <p className="text-xs text-muted-foreground">points</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <LeaderboardComponent />
           </TabsContent>
         </Tabs>
       </div>
