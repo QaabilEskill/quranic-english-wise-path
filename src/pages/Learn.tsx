@@ -96,6 +96,10 @@ const Learn = () => {
 
           {/* AI Chat Tab */}
           <TabsContent value="chat" className="space-y-6">
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-primary mb-2">Ask Anything, Practice Speaking</h3>
+              <p className="text-muted-foreground">Practice English speaking with Islamic context.<br />Learn words and just talk – no pressure.</p>
+            </div>
             <AIChatInterface />
           </TabsContent>
 
@@ -112,7 +116,7 @@ const Learn = () => {
                       </Badge>
                     </CardTitle>
                     <CardDescription>
-                      Islamic English fundamentals with Quranic vocabulary
+                      {level === 1 ? "Learn Quranic words + speak in daily English" : "Islamic English fundamentals with Quranic vocabulary"}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -131,7 +135,8 @@ const Learn = () => {
                       variant={level <= (userProfile?.current_level || 1) ? "default" : "secondary"}
                       disabled={level > (userProfile?.current_level || 1)}
                     >
-                      {level < (userProfile?.current_level || 1) ? "Review" : 
+                      {level === 1 ? "Start Speaking" : 
+                       level < (userProfile?.current_level || 1) ? "Review" : 
                        level === (userProfile?.current_level || 1) ? "Continue" : "Locked"}
                     </Button>
                   </CardContent>
@@ -142,6 +147,10 @@ const Learn = () => {
 
           {/* Stories Tab */}
           <TabsContent value="stories" className="space-y-6">
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-primary mb-2">Learn English with Islamic Stories</h3>
+              <p className="text-muted-foreground">New words + moral lessons in every story</p>
+            </div>
             <div className="grid md:grid-cols-2 gap-6">
               {[
                 { title: "The Story of Prophet Ibrahim (AS)", level: "Beginner", time: "5 min" },
@@ -220,6 +229,10 @@ const Learn = () => {
 
           {/* Leaderboard Tab */}
           <TabsContent value="leaderboard" className="space-y-6">
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-primary mb-2">Your Progress = Your Growth</h3>
+              <p className="text-muted-foreground">You're doing great! Learn daily and earn points as you grow.</p>
+            </div>
             <LeaderboardComponent />
           </TabsContent>
         </Tabs>

@@ -60,8 +60,14 @@ const Auth = () => {
             <Building className="w-8 h-8 text-primary" />
             <h1 className="text-3xl font-bold text-primary">QaabiEskill</h1>
           </div>
-          <p className="text-muted-foreground text-lg">
-            Learn English the Islamic Way
+          <p className="text-muted-foreground text-lg font-semibold">
+            Learn to Speak English – the Islamic Way
+          </p>
+          <p className="text-primary text-base font-bold bg-yellow-100/70 rounded-lg px-4 py-2 mt-3 border border-yellow-200">
+            🗣️ Jaise doston se baat karte ho, waise hi English bolna seekho – bina grammar ke!
+          </p>
+          <p className="text-muted-foreground text-sm mt-2">
+            Start your English speaking journey – simple, Islamic, and step-by-step.
           </p>
           <div className="flex items-center justify-center gap-4 mt-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">

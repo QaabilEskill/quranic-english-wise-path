@@ -82,44 +82,8 @@ const Dashboard = () => {
         </div>
 
         {/* Action Cards */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {/* Demo Card */}
-          <Card className="islamic-card hover:glow-effect transition-all duration-300">
-            <CardHeader className="text-center">
-              <div className="w-16 h-16 islamic-gradient rounded-full flex items-center justify-center mx-auto mb-4">
-                <Play className="w-8 h-8 text-white" />
-              </div>
-              <CardTitle className="text-2xl">Try Our Demo</CardTitle>
-              <CardDescription className="text-lg">
-                Experience 3 free AI conversations to see how our Islamic English tutor works
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="bg-muted/50 rounded-lg p-4">
-                <h4 className="font-medium mb-2">What you'll get:</h4>
-                <ul className="space-y-1 text-sm text-muted-foreground">
-                  <li>• 3 free AI conversations</li>
-                  <li>• Islamic English corrections</li>
-                  <li>• Arabic phrase explanations</li>
-                  <li>• Preview of our teaching style</li>
-                </ul>
-              </div>
-              <div className="text-center">
-                <p className="text-sm text-muted-foreground mb-4">
-                  Messages used: {userProfile?.demo_messages_used || 0} / 3
-                </p>
-                <Button 
-                  onClick={handleStartDemo} 
-                  className="w-full islamic-button"
-                  disabled={userProfile?.demo_messages_used >= 3}
-                >
-                  {userProfile?.demo_messages_used >= 3 ? 'Demo Completed' : 'Start Demo'}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Payment/Access Card */}
+        <div className="flex justify-center max-w-2xl mx-auto">
+          {/* Main Call-to-Action Card */}
           <Card className="islamic-card hover:glow-effect transition-all duration-300">
             <CardHeader className="text-center">
               <div className="w-16 h-16 sky-gradient rounded-full flex items-center justify-center mx-auto mb-4">
@@ -130,12 +94,12 @@ const Dashboard = () => {
                 )}
               </div>
               <CardTitle className="text-2xl">
-                {userProfile?.has_paid_access ? 'Full Access' : 'Unlock Full Access'}
+                {userProfile?.has_paid_access ? 'Continue Learning' : 'Start Learning Today'}
               </CardTitle>
               <CardDescription className="text-lg">
                 {userProfile?.has_paid_access 
-                  ? 'Welcome to the complete QaabiEskill experience'
-                  : 'Get unlimited access to all our Islamic English learning features'
+                  ? 'Welcome back! Continue your Islamic English journey'
+                  : 'Get full access to:'
                 }
               </CardDescription>
             </CardHeader>
@@ -145,12 +109,11 @@ const Dashboard = () => {
                   {userProfile?.has_paid_access ? 'You have access to:' : 'Full access includes:'}
                 </h4>
                 <ul className="space-y-1 text-sm text-muted-foreground">
-                  <li>• Unlimited AI conversations</li>
-                  <li>• Islamic vocabulary lessons</li>
-                  <li>• 10-level quiz system</li>
-                  <li>• 100+ Islamic stories</li>
-                  <li>• Daily Hadith & Duas</li>
-                  <li>• Leaderboard & progress tracking</li>
+                  <li>• English speaking practice with Islamic topics</li>
+                  <li>• Vocabulary from the Quran</li>
+                  <li>• 100+ simple Islamic stories</li>
+                  <li>• Daily Duas & Hadith</li>
+                  <li>• Quizzes and progress tracking</li>
                 </ul>
               </div>
               <div className="text-center">
@@ -162,7 +125,7 @@ const Dashboard = () => {
                   <>
                     <p className="text-2xl font-bold text-primary mb-4">₹500</p>
                     <Button onClick={handlePayment} className="w-full islamic-button">
-                      Make Payment
+                      Start Learning
                     </Button>
                   </>
                 )}
@@ -216,6 +179,15 @@ const Dashboard = () => {
                 Join a community of Muslims learning English together with Islamic values
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Footer Tagline */}
+        <div className="text-center mt-12">
+          <div className="bg-white/60 rounded-2xl p-4 max-w-xl mx-auto">
+            <p className="font-medium text-primary text-lg">
+              Learn English. Live Islam. Speak with Confidence.
+            </p>
           </div>
         </div>
       </div>
