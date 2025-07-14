@@ -119,6 +119,9 @@ const AIChatInterface = () => {
       const data = await response.json();
 
       if (!response.ok) {
+        if (response.status === 429) {
+          throw new Error('Rate limit exceeded. Please wait a few minutes and try again.');
+        }
         throw new Error(data.error || 'Failed to get AI response');
       }
 

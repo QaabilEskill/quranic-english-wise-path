@@ -88,7 +88,7 @@ Always respond in a helpful, educational manner while maintaining Islamic values
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4.1-2025-04-14',
         messages: messages,
         max_tokens: 500,
         temperature: 0.7,
@@ -96,7 +96,16 @@ Always respond in a helpful, educational manner while maintaining Islamic values
     });
 
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.statusText}`);
+      const errorData = await response.json().catch(() => ({}));
+      console.error('OpenAI API Error:', response.status, response.statusText, errorData);
+      
+      if (response.status === 429) {
+        throw new Error('Rate limit exceeded. Please try again in a few minutes.');
+      } else if (response.status === 401) {
+        throw new Error('Invalid API key. Please check your OpenAI API configuration.');
+      } else {
+        throw new Error(`OpenAI API error: ${errorData.error?.message || response.statusText}`);
+      }
     }
 
     const data = await response.json();
