@@ -100,11 +100,26 @@ Always respond in a helpful, educational manner while maintaining Islamic values
       console.error('OpenAI API Error:', response.status, response.statusText, errorData);
       
       if (response.status === 429) {
-        throw new Error('Rate limit exceeded. Please try again in a few minutes.');
+        return new Response(JSON.stringify({ 
+          error: 'Rate limit exceeded. Please try again in a few minutes.' 
+        }), {
+          status: 429,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
       } else if (response.status === 401) {
-        throw new Error('Invalid API key. Please check your OpenAI API configuration.');
+        return new Response(JSON.stringify({ 
+          error: 'Invalid API key. Please check your OpenAI API configuration.' 
+        }), {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
       } else {
-        throw new Error(`OpenAI API error: ${errorData.error?.message || response.statusText}`);
+        return new Response(JSON.stringify({ 
+          error: `OpenAI API error: ${errorData.error?.message || response.statusText}` 
+        }), {
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
       }
     }
 
