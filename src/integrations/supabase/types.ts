@@ -193,6 +193,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          bio_data: string | null
           created_at: string | null
           current_level: number | null
           demo_messages_used: number | null
@@ -200,11 +201,14 @@ export type Database = {
           full_name: string | null
           has_paid_access: boolean | null
           id: string
+          phone_number: string | null
           total_points: number | null
           updated_at: string | null
           user_id: string
+          user_type: string | null
         }
         Insert: {
+          bio_data?: string | null
           created_at?: string | null
           current_level?: number | null
           demo_messages_used?: number | null
@@ -212,11 +216,14 @@ export type Database = {
           full_name?: string | null
           has_paid_access?: boolean | null
           id?: string
+          phone_number?: string | null
           total_points?: number | null
           updated_at?: string | null
           user_id: string
+          user_type?: string | null
         }
         Update: {
+          bio_data?: string | null
           created_at?: string | null
           current_level?: number | null
           demo_messages_used?: number | null
@@ -224,9 +231,11 @@ export type Database = {
           full_name?: string | null
           has_paid_access?: boolean | null
           id?: string
+          phone_number?: string | null
           total_points?: number | null
           updated_at?: string | null
           user_id?: string
+          user_type?: string | null
         }
         Relationships: []
       }
@@ -281,6 +290,33 @@ export type Database = {
           english_meaning?: string
           id?: string
           transliteration?: string | null
+        }
+        Relationships: []
+      }
+      user_activity: {
+        Row: {
+          activity_type: string
+          created_at: string
+          duration_minutes: number | null
+          id: string
+          points_awarded: number | null
+          user_id: string
+        }
+        Insert: {
+          activity_type: string
+          created_at?: string
+          duration_minutes?: number | null
+          id?: string
+          points_awarded?: number | null
+          user_id: string
+        }
+        Update: {
+          activity_type?: string
+          created_at?: string
+          duration_minutes?: number | null
+          id?: string
+          points_awarded?: number | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -398,6 +434,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      award_points_for_activity: {
+        Args: {
+          user_id_param: string
+          activity_type: string
+          points_to_add?: number
+        }
+        Returns: undefined
+      }
       get_user_rank: {
         Args: { user_id_param: string }
         Returns: number

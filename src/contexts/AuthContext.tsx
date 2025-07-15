@@ -7,8 +7,7 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string, fullName: string) => Promise<{ error: any }>;
-  signInWithGoogle: () => Promise<{ error: any }>;
+  signUp: (email: string, password: string, userData: { full_name: string; phone_number?: string; user_type?: string }) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   loading: boolean;
   userProfile: any;
@@ -118,7 +117,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signUp = async (email: string, password: string, fullName: string) => {
+  const signUp = async (email: string, password: string, userData: { full_name: string; phone_number?: string; user_type?: string }) => {
     try {
       const redirectUrl = `${window.location.origin}/`;
       
@@ -128,7 +127,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         options: {
           emailRedirectTo: redirectUrl,
           data: {
-            full_name: fullName,
+            full_name: userData.full_name,
+            phone_number: userData.phone_number,
+            user_type: userData.user_type || 'student'
           }
         }
       });
@@ -142,7 +143,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else {
         toast({
           title: "Registration Successful!",
-          description: "Welcome to QaabiEskill! Please check your email to verify your account.",
+          description: "Welcome to QaabilEskill! Please check your email to verify your account.",
         });
       }
 
@@ -152,28 +153,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const signInWithGoogle = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/`
-        }
-      });
-
-      if (error) {
-        toast({
-          title: "Google Sign-In Failed",
-          description: error.message,
-          variant: "destructive",
-        });
-      }
-
-      return { error };
-    } catch (error) {
-      return { error };
-    }
-  };
 
   const signOut = async () => {
     try {
@@ -196,7 +175,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     session,
     signIn,
     signUp,
-    signInWithGoogle,
     signOut,
     loading,
     userProfile,
