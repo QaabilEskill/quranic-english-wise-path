@@ -9,6 +9,7 @@ import AIChatInterface from '@/components/AIChatInterface';
 import LeaderboardComponent from '@/components/LeaderboardComponent';
 import LessonsDisplay from '@/components/LessonsDisplay';
 import StoriesDisplay from '@/components/StoriesDisplay';
+import DailyContent from '@/components/DailyContent';
 import { 
   Building, 
   MessageCircle, 
@@ -117,49 +118,7 @@ const Learn = () => {
 
           {/* Daily Content Tab */}
           <TabsContent value="daily" className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card className="islamic-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Calendar className="w-6 h-6" />
-                    Daily Hadith
-                  </CardTitle>
-                  <CardDescription>Learn English through daily Hadith study</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-muted/50 rounded-lg p-4 mb-4">
-                    <p className="text-sm italic mb-2">
-                      "The believer is not one who eats his fill while his neighbor goes hungry."
-                    </p>
-                    <p className="text-xs text-muted-foreground">- Prophet Muhammad (SAW)</p>
-                  </div>
-                  <Button className="w-full islamic-button">
-                    View Today's Hadith
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="islamic-card">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Heart className="w-6 h-6" />
-                    Daily Duas
-                  </CardTitle>
-                  <CardDescription>Practice English through Islamic supplications</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="bg-muted/50 rounded-lg p-4 mb-4">
-                    <p className="text-sm mb-2 arabic-text">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً</p>
-                    <p className="text-xs text-muted-foreground">
-                      "Our Lord, give us good in this world..."
-                    </p>
-                  </div>
-                  <Button className="w-full islamic-button">
-                    Learn Today's Dua
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+            <DailyContent />
           </TabsContent>
 
           {/* Leaderboard Tab */}
