@@ -7,6 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import AIChatInterface from '@/components/AIChatInterface';
 import LeaderboardComponent from '@/components/LeaderboardComponent';
+import LessonsDisplay from '@/components/LessonsDisplay';
+import StoriesDisplay from '@/components/StoriesDisplay';
 import { 
   Building, 
   MessageCircle, 
@@ -48,7 +50,7 @@ const Learn = () => {
             </Button>
             <div className="flex items-center gap-2">
               <Building className="w-8 h-8 text-primary" />
-              <h1 className="text-2xl font-bold text-primary">QaabiEskill</h1>
+              <h1 className="text-2xl font-bold text-primary">QaabilEskill</h1>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -105,79 +107,12 @@ const Learn = () => {
 
           {/* Lessons Tab */}
           <TabsContent value="lessons" className="space-y-6">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3, 4, 5].map((level) => (
-                <Card key={level} className="islamic-card">
-                  <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
-                      <span>Level {level}</span>
-                      <Badge variant={level <= (userProfile?.current_level || 1) ? "default" : "secondary"}>
-                        {level <= (userProfile?.current_level || 1) ? "Unlocked" : "Locked"}
-                      </Badge>
-                    </CardTitle>
-                    <CardDescription>
-                      {level === 1 ? "Learn Quranic words + speak in daily English" : "Islamic English fundamentals with Quranic vocabulary"}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2 mb-4">
-                      <div className="flex items-center gap-2 text-sm">
-                        <Clock className="w-4 h-4" />
-                        <span>30-45 minutes</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm">
-                        <BookOpen className="w-4 h-4" />
-                        <span>10 lessons</span>
-                      </div>
-                    </div>
-                    <Button 
-                      className="w-full" 
-                      variant={level <= (userProfile?.current_level || 1) ? "default" : "secondary"}
-                      disabled={level > (userProfile?.current_level || 1)}
-                    >
-                      {level === 1 ? "Start Speaking" : 
-                       level < (userProfile?.current_level || 1) ? "Review" : 
-                       level === (userProfile?.current_level || 1) ? "Continue" : "Locked"}
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <LessonsDisplay />
           </TabsContent>
 
           {/* Stories Tab */}
           <TabsContent value="stories" className="space-y-6">
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-primary mb-2">Learn English with Islamic Stories</h3>
-              <p className="text-muted-foreground">New words + moral lessons in every story</p>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {[
-                { title: "The Story of Prophet Ibrahim (AS)", level: "Beginner", time: "5 min" },
-                { title: "The Kindness of Prophet Muhammad (SAW)", level: "Intermediate", time: "7 min" },
-                { title: "The Wisdom of Luqman", level: "Advanced", time: "10 min" },
-                { title: "The Cave of Thawr", level: "Beginner", time: "6 min" }
-              ].map((story, index) => (
-                <Card key={index} className="islamic-card">
-                  <CardHeader>
-                    <CardTitle className="text-lg">{story.title}</CardTitle>
-                    <div className="flex gap-2">
-                      <Badge variant="outline">{story.level}</Badge>
-                      <Badge variant="secondary">{story.time}</Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground mb-4">
-                      Learn English through beautiful Islamic stories with vocabulary highlights and moral lessons.
-                    </p>
-                    <Button className="w-full islamic-button">
-                      <Play className="w-4 h-4 mr-2" />
-                      Read Story
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <StoriesDisplay />
           </TabsContent>
 
           {/* Daily Content Tab */}

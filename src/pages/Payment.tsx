@@ -70,7 +70,7 @@ const Payment = () => {
             </Button>
             <div className="flex items-center gap-2">
               <Building className="w-6 h-6 text-primary" />
-              <h1 className="text-xl font-bold text-primary">QaabiEskill Payment</h1>
+              <h1 className="text-xl font-bold text-primary">QaabilEskill Payment</h1>
             </div>
           </div>
         </div>
@@ -174,13 +174,13 @@ const Payment = () => {
                   </a>
                   
                   <a
-                    href="mailto:support@qaabiesill.com"
+                    href="mailto:support@qaabileskill.com"
                     className="flex items-center gap-3 p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors"
                   >
                     <Mail className="w-5 h-5 text-purple-600" />
                     <div>
                       <p className="font-medium">Email Support</p>
-                      <p className="text-sm text-muted-foreground">support@qaabiesill.com</p>
+                      <p className="text-sm text-muted-foreground">support@qaabileskill.com</p>
                     </div>
                   </a>
                 </div>

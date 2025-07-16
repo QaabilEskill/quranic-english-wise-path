@@ -8,6 +8,7 @@ import { MessageCircle, Send, Bot, User, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import TextToSpeech from './TextToSpeech';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -185,9 +186,9 @@ const AIChatInterface = () => {
           {messages.length === 0 ? (
             <div className="text-center py-8">
               <Bot className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-medium mb-2">Welcome to AI Tutor!</h3>
+              <h3 className="text-lg font-medium mb-2">Assalamu Alaikum! Welcome to QaabilEskill AI Tutor!</h3>
               <p className="text-muted-foreground">
-                Ask questions about English grammar, Islamic vocabulary, or practice conversations.
+                Ask questions about English grammar, Islamic vocabulary, or practice conversations. All responses include voice playback!
               </p>
             </div>
           ) : (
@@ -213,7 +214,12 @@ const AIChatInterface = () => {
                         : 'bg-muted'
                     }`}
                   >
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="text-sm whitespace-pre-wrap flex-1">{message.content}</p>
+                      {message.role === 'assistant' && (
+                        <TextToSpeech text={message.content} />
+                      )}
+                    </div>
                     <p className="text-xs opacity-70 mt-1">
                       {message.timestamp.toLocaleTimeString()}
                     </p>

@@ -34,7 +34,7 @@ const Dashboard = () => {
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Building className="w-8 h-8 text-primary" />
-            <h1 className="text-2xl font-bold text-primary">QaabiEskill</h1>
+            <h1 className="text-2xl font-bold text-primary">QaabilEskill</h1>
           </div>
           <div className="flex items-center gap-4">
             <div className="text-right">
@@ -149,7 +149,7 @@ const Dashboard = () => {
         {/* Features Preview */}
         <div className="mt-16">
           <h3 className="text-2xl font-bold text-center text-primary mb-8">
-            Why Choose QaabiEskill?
+            Why Choose QaabilEskill?
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center">

@@ -33,7 +33,7 @@ const Demo = () => {
     setConversation([
       {
         type: 'ai',
-        content: `Assalamu Alaikum! Welcome to QaabiEskill demo! 🕌\n\nI'm your Islamic English tutor. I'll help you learn proper English while incorporating Islamic values and explanations.\n\nTry sending me a message like:\n• "I go mosque"\n• "I want learn Quran"\n• "How I say Alhamdulillah in English?"\n\nYou have ${3 - messagesUsed} demo messages remaining.`
+        content: `Assalamu Alaikum! Welcome to QaabilEskill demo! 🕌\n\nI'm your Islamic English tutor. I'll help you learn proper English while incorporating Islamic values and explanations.\n\nTry sending me a message like:\n• "I go mosque"\n• "I want learn Quran"\n• "How I say Alhamdulillah in English?"\n\nYou have ${3 - messagesUsed} demo messages remaining.`
       }
     ]);
   }, [user, navigate, messagesUsed]);
@@ -111,7 +111,7 @@ const Demo = () => {
             </Button>
             <div className="flex items-center gap-2">
               <Building className="w-6 h-6 text-primary" />
-              <h1 className="text-xl font-bold text-primary">QaabiEskill Demo</h1>
+              <h1 className="text-xl font-bold text-primary">QaabilEskill Demo</h1>
             </div>
           </div>
           <Badge variant={isMaxMessages ? "destructive" : "default"}>
