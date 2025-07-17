@@ -1,8 +1,9 @@
+
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.50.5';
 
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
@@ -56,11 +57,8 @@ serve(async (req) => {
       });
     }
 
-    // Prepare messages for OpenAI
-    const messages = [
-      {
-        role: 'system',
-        content: `You are an Islamic English tutor AI assistant. Your role is to:
+    // Prepare conversation context for Gemini
+    let conversationText = `You are an Islamic English tutor AI assistant. Your role is to:
 1. Help users improve their English language skills
 2. Provide corrections and explanations for grammar, vocabulary, and pronunciation
 3. Explain Islamic/Arabic terms and phrases in English
@@ -69,35 +67,65 @@ serve(async (req) => {
 6. Provide Quranic verses or Hadith translations when relevant
 7. Help with Islamic vocabulary and phrases
 
-Always respond in a helpful, educational manner while maintaining Islamic values and etiquette.`
-      },
-      ...conversationHistory.map((msg: any) => ({
-        role: msg.role,
-        content: msg.content
-      })),
-      {
-        role: 'user',
-        content: message
-      }
-    ];
+Always respond in a helpful, educational manner while maintaining Islamic values and etiquette.\n\n`;
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    // Add conversation history
+    conversationHistory.forEach((msg: any) => {
+      if (msg.role === 'user') {
+        conversationText += `User: ${msg.content}\n`;
+      } else {
+        conversationText += `Assistant: ${msg.content}\n`;
+      }
+    });
+
+    // Add current message
+    conversationText += `User: ${message}\nAssistant: `;
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${geminiApiKey}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4.1-2025-04-14',
-        messages: messages,
-        max_tokens: 500,
-        temperature: 0.7,
+        contents: [
+          {
+            parts: [
+              {
+                text: conversationText
+              }
+            ]
+          }
+        ],
+        generationConfig: {
+          temperature: 0.7,
+          topK: 40,
+          topP: 0.95,
+          maxOutputTokens: 500,
+        },
+        safetySettings: [
+          {
+            category: "HARM_CATEGORY_HARASSMENT",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+          },
+          {
+            category: "HARM_CATEGORY_HATE_SPEECH",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+          },
+          {
+            category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+          },
+          {
+            category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+          }
+        ]
       }),
     });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      console.error('OpenAI API Error:', response.status, response.statusText, errorData);
+      console.error('Gemini API Error:', response.status, response.statusText, errorData);
       
       if (response.status === 429) {
         return new Response(JSON.stringify({ 
@@ -108,14 +136,14 @@ Always respond in a helpful, educational manner while maintaining Islamic values
         });
       } else if (response.status === 401) {
         return new Response(JSON.stringify({ 
-          error: 'Invalid API key. Please check your OpenAI API configuration.' 
+          error: 'Invalid API key. Please check your Gemini API configuration.' 
         }), {
           status: 401,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       } else {
         return new Response(JSON.stringify({ 
-          error: `OpenAI API error: ${errorData.error?.message || response.statusText}` 
+          error: `Gemini API error: ${errorData.error?.message || response.statusText}` 
         }), {
           status: 500,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -124,7 +152,12 @@ Always respond in a helpful, educational manner while maintaining Islamic values
     }
 
     const data = await response.json();
-    const aiResponse = data.choices[0].message.content;
+    
+    if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
+      throw new Error('Invalid response from Gemini API');
+    }
+    
+    const aiResponse = data.candidates[0].content.parts[0].text;
 
     // Save conversation to database
     await supabase

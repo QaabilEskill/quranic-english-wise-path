@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Volume2, VolumeX, Loader2 } from 'lucide-react';
@@ -21,42 +22,31 @@ const TextToSpeech: React.FC<TextToSpeechProps> = ({ text, size = 'sm', variant 
     setIsLoading(true);
     
     try {
-      const { data, error } = await supabase.functions.invoke('text-to-speech', {
-        body: { text, voice: 'alloy' }
-      });
-
-      if (error) throw error;
-
-      if (data.audioContent) {
-        // Convert base64 to audio blob
-        const binaryString = atob(data.audioContent);
-        const bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-          bytes[i] = binaryString.charCodeAt(i);
-        }
+      // Use browser's built-in speech synthesis as fallback
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.8;
+        utterance.pitch = 1;
+        utterance.volume = 1;
         
-        const audioBlob = new Blob([bytes], { type: 'audio/mp3' });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        const audio = new Audio(audioUrl);
-        
-        setIsPlaying(true);
-        
-        audio.onended = () => {
+        utterance.onstart = () => setIsPlaying(true);
+        utterance.onend = () => setIsPlaying(false);
+        utterance.onerror = () => {
           setIsPlaying(false);
-          URL.revokeObjectURL(audioUrl);
-        };
-        
-        audio.onerror = () => {
-          setIsPlaying(false);
-          URL.revokeObjectURL(audioUrl);
           toast({
-            title: "Audio Error",
-            description: "Failed to play audio",
+            title: "Speech Error",
+            description: "Failed to play text using browser speech synthesis",
             variant: "destructive"
           });
         };
         
-        await audio.play();
+        speechSynthesis.speak(utterance);
+      } else {
+        toast({
+          title: "Not Supported",
+          description: "Text-to-speech is not supported in your browser",
+          variant: "destructive"
+        });
       }
     } catch (error) {
       console.error('Error playing text:', error);
