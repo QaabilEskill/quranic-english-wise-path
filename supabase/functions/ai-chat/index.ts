@@ -19,6 +19,11 @@ serve(async (req) => {
   }
 
   try {
+    // Validate Gemini API key
+    if (!geminiApiKey) {
+      throw new Error('Gemini API key not configured');
+    }
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     
     // Get the authorization header
@@ -70,16 +75,20 @@ serve(async (req) => {
 Always respond in a helpful, educational manner while maintaining Islamic values and etiquette.\n\n`;
 
     // Add conversation history
-    conversationHistory.forEach((msg: any) => {
-      if (msg.role === 'user') {
-        conversationText += `User: ${msg.content}\n`;
-      } else {
-        conversationText += `Assistant: ${msg.content}\n`;
-      }
-    });
+    if (conversationHistory && Array.isArray(conversationHistory)) {
+      conversationHistory.forEach((msg: any) => {
+        if (msg.role === 'user') {
+          conversationText += `User: ${msg.content}\n`;
+        } else {
+          conversationText += `Assistant: ${msg.content}\n`;
+        }
+      });
+    }
 
     // Add current message
     conversationText += `User: ${message}\nAssistant: `;
+
+    console.log('Sending request to Gemini API...');
 
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${geminiApiKey}`, {
       method: 'POST',
@@ -134,7 +143,7 @@ Always respond in a helpful, educational manner while maintaining Islamic values
           status: 429,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
-      } else if (response.status === 401) {
+      } else if (response.status === 401 || response.status === 403) {
         return new Response(JSON.stringify({ 
           error: 'Invalid API key. Please check your Gemini API configuration.' 
         }), {
@@ -152,8 +161,10 @@ Always respond in a helpful, educational manner while maintaining Islamic values
     }
 
     const data = await response.json();
+    console.log('Gemini API Response:', data);
     
     if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
+      console.error('Invalid response structure from Gemini API:', data);
       throw new Error('Invalid response from Gemini API');
     }
     
@@ -178,6 +189,8 @@ Always respond in a helpful, educational manner while maintaining Islamic values
         })
         .eq('user_id', user.id);
     }
+
+    console.log('Successfully processed chat request');
 
     return new Response(JSON.stringify({ 
       response: aiResponse,
