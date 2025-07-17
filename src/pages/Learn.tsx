@@ -40,92 +40,172 @@ const Learn = () => {
   };
 
   return (
-    <div className="min-h-screen cream-gradient">
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-border">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button onClick={handleBack} variant="ghost" size="sm">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
-            <div className="flex items-center gap-2">
-              <Building className="w-8 h-8 text-primary" />
-              <h1 className="text-2xl font-bold text-primary">QaabilEskill</h1>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Star className="w-5 h-5 text-yellow-500" />
-                <span className="font-medium">Level {userProfile?.current_level || 1}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Trophy className="w-5 h-5 text-primary" />
-                <span className="font-medium">{userProfile?.total_points || 0} Points</span>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/20">
+      {/* Professional Header */}
+      <header className="glass-card border-0 border-b border-border/20 backdrop-blur-xl bg-card/60">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-6">
+              <Button onClick={handleBack} variant="ghost" size="sm" className="hover:-translate-y-0.5">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center shadow-glow">
+                  <Building className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold gradient-text">QaabilEskill</h1>
+                  <p className="text-xs text-muted-foreground">Islamic Learning Platform</p>
+                </div>
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-sm text-muted-foreground">Assalamu Alaikum,</p>
-              <p className="font-medium">{userProfile?.full_name || user?.email}</p>
+
+            <div className="flex items-center gap-6">
+              {/* Stats Cards */}
+              <div className="flex items-center gap-4">
+                <div className="glass-card p-3 bg-yellow-500/10 border-yellow-500/20">
+                  <div className="flex items-center gap-2">
+                    <Star className="w-4 h-4 text-yellow-600" />
+                    <div className="text-right">
+                      <p className="text-xs text-muted-foreground">Level</p>
+                      <p className="font-bold text-sm">{userProfile?.current_level || 1}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="glass-card p-3 bg-primary/10 border-primary/20">
+                  <div className="flex items-center gap-2">
+                    <Trophy className="w-4 h-4 text-primary" />
+                    <div className="text-right">
+                      <p className="text-xs text-muted-foreground">Points</p>
+                      <p className="font-bold text-sm">{userProfile?.total_points || 0}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* User Info */}
+              <div className="text-right">
+                <p className="text-sm text-muted-foreground">Assalamu Alaikum,</p>
+                <p className="font-semibold text-foreground">{userProfile?.full_name || user?.email}</p>
+              </div>
+
+              <Button onClick={handleSignOut} variant="outline" size="sm">
+                Sign Out
+              </Button>
             </div>
-            <Button onClick={handleSignOut} variant="outline" size="sm">
-              Sign Out
-            </Button>
           </div>
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Welcome Section */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-primary mb-2">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        {/* Hero Welcome Section */}
+        <div className="text-center mb-16 animate-fade-in-up">
+          <div className="inline-block p-2 rounded-full bg-primary/10 mb-6">
+            <Heart className="w-8 h-8 text-primary" />
+          </div>
+          <h2 className="text-5xl font-bold mb-4 gradient-text">
             Your Islamic English Learning Journey
           </h2>
-          <p className="text-muted-foreground">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             "Read! In the name of your Lord who created." - Quran 96:1
           </p>
+          <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary-glow mx-auto mt-8 rounded-full"></div>
         </div>
 
-        {/* Learning Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="chat">AI Chat</TabsTrigger>
-            <TabsTrigger value="lessons">Lessons</TabsTrigger>
-            <TabsTrigger value="stories">Stories</TabsTrigger>
-            <TabsTrigger value="daily">Daily Content</TabsTrigger>
-            <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
-          </TabsList>
+        {/* Professional Learning Navigation */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full animate-fade-in">
+          <div className="flex justify-center mb-12">
+            <TabsList className="grid grid-cols-5 max-w-4xl w-full">
+              <TabsTrigger value="chat" className="flex items-center gap-2">
+                <MessageCircle className="w-4 h-4" />
+                AI Chat
+              </TabsTrigger>
+              <TabsTrigger value="lessons" className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4" />
+                Lessons
+              </TabsTrigger>
+              <TabsTrigger value="stories" className="flex items-center gap-2">
+                <Heart className="w-4 h-4" />
+                Stories
+              </TabsTrigger>
+              <TabsTrigger value="daily" className="flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                Daily
+              </TabsTrigger>
+              <TabsTrigger value="leaderboard" className="flex items-center gap-2">
+                <Trophy className="w-4 h-4" />
+                Rankings
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           {/* AI Chat Tab */}
-          <TabsContent value="chat" className="space-y-6">
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-primary mb-2">Ask Anything, Practice Speaking</h3>
-              <p className="text-muted-foreground">Practice English speaking with Islamic context.<br />Learn words and just talk – no pressure.</p>
+          <TabsContent value="chat" className="space-y-8">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-3 p-4 rounded-2xl bg-primary/5 border border-primary/10 mb-6">
+                <MessageCircle className="w-8 h-8 text-primary" />
+                <div className="text-left">
+                  <h3 className="text-2xl font-bold text-primary">Ask Anything, Practice Speaking</h3>
+                  <p className="text-muted-foreground">Practice English speaking with Islamic context. Learn words and just talk – no pressure.</p>
+                </div>
+              </div>
             </div>
             <AIChatInterface />
           </TabsContent>
 
           {/* Lessons Tab */}
-          <TabsContent value="lessons" className="space-y-6">
+          <TabsContent value="lessons" className="space-y-8">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-3 p-4 rounded-2xl bg-blue-500/5 border border-blue-500/10 mb-6">
+                <BookOpen className="w-8 h-8 text-blue-600" />
+                <div className="text-left">
+                  <h3 className="text-2xl font-bold text-blue-600">Structured Learning Path</h3>
+                  <p className="text-muted-foreground">Follow our carefully designed curriculum with Islamic English lessons.</p>
+                </div>
+              </div>
+            </div>
             <LessonsDisplay />
           </TabsContent>
 
           {/* Stories Tab */}
-          <TabsContent value="stories" className="space-y-6">
+          <TabsContent value="stories" className="space-y-8">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-3 p-4 rounded-2xl bg-purple-500/5 border border-purple-500/10 mb-6">
+                <Heart className="w-8 h-8 text-purple-600" />
+                <div className="text-left">
+                  <h3 className="text-2xl font-bold text-purple-600">Inspiring Islamic Stories</h3>
+                  <p className="text-muted-foreground">Learn English through meaningful stories from Islamic history and values.</p>
+                </div>
+              </div>
+            </div>
             <StoriesDisplay />
           </TabsContent>
 
           {/* Daily Content Tab */}
-          <TabsContent value="daily" className="space-y-6">
+          <TabsContent value="daily" className="space-y-8">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-3 p-4 rounded-2xl bg-orange-500/5 border border-orange-500/10 mb-6">
+                <Calendar className="w-8 h-8 text-orange-600" />
+                <div className="text-left">
+                  <h3 className="text-2xl font-bold text-orange-600">Daily Spiritual Learning</h3>
+                  <p className="text-muted-foreground">Start each day with Quranic verses, Hadith, and Duas in English.</p>
+                </div>
+              </div>
+            </div>
             <DailyContent />
           </TabsContent>
 
           {/* Leaderboard Tab */}
-          <TabsContent value="leaderboard" className="space-y-6">
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-primary mb-2">Your Progress = Your Growth</h3>
-              <p className="text-muted-foreground">You're doing great! Learn daily and earn points as you grow.</p>
+          <TabsContent value="leaderboard" className="space-y-8">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-3 p-4 rounded-2xl bg-yellow-500/5 border border-yellow-500/10 mb-6">
+                <Trophy className="w-8 h-8 text-yellow-600" />
+                <div className="text-left">
+                  <h3 className="text-2xl font-bold text-yellow-600">Your Progress = Your Growth</h3>
+                  <p className="text-muted-foreground">You're doing great! Learn daily and earn points as you grow in knowledge.</p>
+                </div>
+              </div>
             </div>
             <LeaderboardComponent />
           </TabsContent>
